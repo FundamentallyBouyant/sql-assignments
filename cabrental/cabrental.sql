@@ -1,39 +1,29 @@
-
+DROP SCHEMA IF EXISTS cabrental;
 CREATE SCHEMA IF NOT EXISTS cabrental;
 USE cabrental;
 
-CREATE TABLE IF NOT EXISTS cabrental.Driver(
-  Driver_id INT(3) NOT NULL,
-  first_name VARCHAR(45) NULL,
-  last_name VARCHAR(45) NULL,
-  PRIMARY KEY (Driver_id));
+CREATE TABLE IF NOT EXISTS cabrental.cabs(
+	cab_id INT UNSIGNED UNIQUE NOT NULL,
+    vehicle_no VARCHAR(45) NOT NULL,
+    car_model VARCHAR(45) NOT NULL,
+    PRIMARY KEY(cab_id)
+    );
+    
+    
+CREATE TABLE IF NOT EXISTS cabrental.drivers(
+	driver_id INT UNSIGNED UNIQUE NOT NULL,
+    driver_name VARCHAR(45) NOT NULL,
+    PRIMARY KEY(driver_id),
+    CONSTRAINT fk_drivers_driver_id
+    FOREIGN KEY(driver_id) REFERENCES cabs(cab_id)
+    );
 
-
-CREATE TABLE IF NOT EXISTS cabrental.Cabs (
-  Cab_id INT(3) NOT NULL,
-  Driven_by_DID INT(3) NOT NULL,
-  Registration_num INT(4) NULL,
-  Company VARCHAR(45) NULL,
-  Model VARCHAR(45) NULL,
-  PRIMARY KEY (Cab_id),
-  INDEX fk_Cabs_1_idx (Driven_by_DID ASC),
-  UNIQUE INDEX Registration_num_UNIQUE (Registration_num ASC),
-  CONSTRAINT fk_Cabs_1
-    FOREIGN KEY (Driven_by_DID)
-    REFERENCES cabrental.Driver (Driver_id));
-
-
-CREATE TABLE IF NOT EXISTS cabrental.Customer (
-  Customer_id INT(6) ZEROFILL NOT NULL,
-  Riding_in_CID INT(3) NULL,
-  first_name VARCHAR(45) NULL,
-  last_name VARCHAR(45) NULL,
-  PRIMARY KEY (Customer_id));
-
-
-CREATE TABLE IF NOT EXISTS cabrental.Ride (
-  Ride_id INT(8) NOT NULL AUTO_INCREMENT,
-  Cab_id INT(3) NULL,
-  Customer_id INT(6) NULL,
-  Timestamp DATETIME NULL,
-  PRIMARY KEY (Ride_id));
+CREATE TABLE IF NOT EXISTS cabrental.customers(
+	customer_id INT UNSIGNED UNIQUE NOT NULL,
+    first_name VARCHAR(20),
+    last_name VARCHAR(20),
+    cab_id INT UNSIGNED,
+    PRIMARY KEY(customer_id),
+    CONSTRAINT fk_customer_cab_id
+    FOREIGN KEY(cab_id) REFERENCES cabs(cab_id)
+    );

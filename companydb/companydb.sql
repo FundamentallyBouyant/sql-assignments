@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS companydb.employees(
 CREATE TABLE IF NOT EXISTS companydb.projects(
 	proj_id INT UNSIGNED UNIQUE NOT NULL,
     proj_name VARCHAR(45) NOT NULL,
+    primary_employee_id INT UNSIGNED UNIQUE NOT NULL,
     proj_desc VARCHAR(300),
     PRIMARY KEY(proj_id)
     );
@@ -38,6 +39,3 @@ CREATE TABLE IF NOT EXISTS companydb.reports_to(
     CONSTRAINT fk_reports_to_manager_id
     FOREIGN KEY(employee_id) REFERENCES employees(id)
     );
-    
-    
-    
