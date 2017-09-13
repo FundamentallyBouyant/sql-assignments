@@ -30,11 +30,14 @@ CREATE TABLE IF NOT EXISTS foodfox.deliveryboy(
 CREATE TABLE IF NOT EXISTS foodfox.orders(
 	id INT UNSIGNED AUTO_INCREMENT NOT NULL,
     customer_id INT UNSIGNED NOT NULL,
-    deliveryboy_id INT UNSIGNED,
+    deliveryboy_id INT UNSIGNED NOT NULL,
     restaurant_id INT UNSIGNED NOT NULL,
     details VARCHAR(200),
     address VARCHAR(200) NOT NULL,
+    booking_date DATE NOT NULL,
     PRIMARY KEY(id),
+    CONSTRAINT uk_orders_customer_id
+    UNIQUE KEY(customer_id,restaurant_id,booking_date),
     CONSTRAINT fk_orders_customer_id
     FOREIGN KEY(customer_id) REFERENCES customers(id),
     CONSTRAINT fk_orders_deliveryboy_id
@@ -42,7 +45,4 @@ CREATE TABLE IF NOT EXISTS foodfox.orders(
     CONSTRAINT fk_orders_restaurant_id
     FOREIGN KEY(restaurant_id) REFERENCES restaurants(id)
     );
-    
-    
-    
     
